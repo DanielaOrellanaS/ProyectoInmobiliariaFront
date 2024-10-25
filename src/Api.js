@@ -1,5 +1,6 @@
 // src/Api.js
-const apiUrl = 'https://proyectoinmobiliario.onrender.com';
+const apiUrl = 'https://proyectoinmobiliaria.onrender.com';
+const localUrl = 'http://127.0.0.1:8000';
 
 export async function getCsrfToken() {
   try {

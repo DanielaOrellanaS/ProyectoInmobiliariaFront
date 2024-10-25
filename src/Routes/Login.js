@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Importar Link
 import { Box, Button, TextField, Typography, Container } from '@mui/material';
 import { loginUser } from '../Api';
 
@@ -11,9 +11,10 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
+      console.log("Email:", email);
+      console.log("Password:", password);
       const token = await loginUser(email, password);
       console.log('Token recibido:', token);
-      // Aquí puedes guardar el token en el almacenamiento local o en un contexto global
       navigate('/home');
     } catch (error) {
       setError('Error al iniciar sesión. Por favor, verifica tus credenciales.');
@@ -59,7 +60,14 @@ const Login = () => {
         >
           Iniciar Sesión
         </Button>
-        <Button variant="text" color="primary" fullWidth sx={{ mt: 1 }}>
+        <Button 
+          variant="text" 
+          color="primary" 
+          fullWidth 
+          sx={{ mt: 1 }}
+          component={Link} // Usar Link para navegar
+          to="/register" // Ruta de registro
+        >
           Registrarse
         </Button>
       </Box>
