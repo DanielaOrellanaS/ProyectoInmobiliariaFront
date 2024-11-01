@@ -1,5 +1,3 @@
-// src/components/Register.js
-
 import React from 'react';
 import { Box, Button, Typography, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -23,7 +21,7 @@ const Register = () => {
           fullWidth 
           sx={{ mt: 2 }}
           component={Link} 
-          to="/register/asesor" // Ruta para el registro de asesor
+          to="/register/asesor" 
         >
           Registro Asesor Comercial
         </Button>
@@ -33,9 +31,9 @@ const Register = () => {
           fullWidth 
           sx={{ mt: 2 }} 
           component={Link} 
-          to="/register/agente" // Ruta para el registro de agente
+          to="/register/constructora" 
         >
-          Registro Agente Comercial
+          Registro Constructora Inmobiliaria
         </Button>
       </Box>
     </Container>

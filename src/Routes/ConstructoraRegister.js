@@ -1,48 +1,40 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container, Snackbar, Alert, CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { registerAsesor } from '../Api'; 
+import { registerConstructora } from '../Api';
 
-const AsesorRegister = () => {
-  const [email, setEmail] = useState('');
+const ConstructoraRegister = () => {
   const [nombre, setNombre] = useState('');
+  const [representanteLegal, setRepresentanteLegal] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [tiempoConstitucion, setTiempoConstitucion] = useState('');
   const [identificacion, setIdentificacion] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [biografia, setBiografia] = useState('');
-  const [skills, setSkills] = useState('');
-  const [resenas, setResenas] = useState('');
-  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
-  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false); 
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false); 
+  const [loading, setLoading] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); 
-
-    const asesorData = {
+    const constructoraData = {
       user: {
-        email: email,
+        email,
         name: nombre,
         identification: identificacion,
       },
-      password: password,
-      biography: biografia,
-      skills: skills,
-      reviews: resenas,
-      num_sales: 0, 
+      incorporation_time: parseInt(tiempoConstitucion, 10),
+      legal_representative: representanteLegal,
+      address: direccion,
     };
 
-    console.log("Datos del Asesor:", asesorData); 
-
     try {
-      await registerAsesor(asesorData);
-      setOpenSuccessSnackbar(true);
-      navigate('/');
+      const response = await registerConstructora(constructoraData);
+      console.log("Respuesta de registro:", response);
+      setOpenSuccessSnackbar(true); 
     } catch (error) {
-      console.error("Error al registrar el asesor:", error);
-      setOpenErrorSnackbar(true); 
+      console.error("Error en el registro:", error);
+      setOpenErrorSnackbar(true);
     } finally {
       setLoading(false); 
     }
@@ -68,16 +60,8 @@ const AsesorRegister = () => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h4" gutterBottom>
-          Registro Asesor Comercial
+          Registro Constructora Inmobiliaria
         </Typography>
-        <TextField
-          label="Email"
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
         <TextField
           label="Nombre"
           variant="outlined"
@@ -95,43 +79,46 @@ const AsesorRegister = () => {
           onChange={(e) => setIdentificacion(e.target.value)}
         />
         <TextField
-          label="Contraseña"
-          type="password"
+          label="Email"
           variant="outlined"
           margin="normal"
           fullWidth
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <TextField
-          label="Biografía"
+          label="Representante Legal"
           variant="outlined"
           margin="normal"
           fullWidth
-          multiline
-          rows={4}
-          value={biografia}
-          onChange={(e) => setBiografia(e.target.value)}
+          value={representanteLegal}
+          onChange={(e) => setRepresentanteLegal(e.target.value)}
         />
         <TextField
-          label="Skills"
+          label="Dirección"
           variant="outlined"
           margin="normal"
           fullWidth
-          multiline
-          rows={2}
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
+          value={direccion}
+          onChange={(e) => setDireccion(e.target.value)}
         />
         <TextField
-          label="Reseñas"
+          label="Tiempo de Constitución (Años)"
+          type="number"
           variant="outlined"
           margin="normal"
           fullWidth
-          multiline
-          rows={2}
-          value={resenas}
-          onChange={(e) => setResenas(e.target.value)}
+          value={tiempoConstitucion}
+          onChange={(e) => setTiempoConstitucion(e.target.value)}
         />
         <Button
           variant="contained"
@@ -141,7 +128,7 @@ const AsesorRegister = () => {
           type="submit"
           disabled={loading} 
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'Registrar Asesor'}
+          {loading ? <CircularProgress size={24} color="inherit" /> : 'Registrar Constructora'}
         </Button>
         <Snackbar
           open={openSuccessSnackbar}
@@ -150,7 +137,7 @@ const AsesorRegister = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <Alert onClose={handleCloseSuccessSnackbar} severity="success" sx={{ width: '100%' }}>
-            ¡Registro completado exitosamente!
+            ¡Constructora registrada exitosamente!
           </Alert>
         </Snackbar>
         <Snackbar
@@ -160,7 +147,7 @@ const AsesorRegister = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <Alert onClose={handleCloseErrorSnackbar} severity="error" sx={{ width: '100%' }}>
-            Error al registrar el asesor. Por favor, intenta nuevamente.
+            Error al registrar la constructora. Por favor, intenta nuevamente.
           </Alert>
         </Snackbar>
       </Box>
@@ -168,4 +155,4 @@ const AsesorRegister = () => {
   );
 };
 
-export default AsesorRegister;
+export default ConstructoraRegister;
